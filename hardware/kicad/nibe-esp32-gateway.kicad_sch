@@ -7592,7 +7592,7 @@
 				)
 			)
 		)
-		(property "Value" "600R@100MHz"
+		(property "Value" "220R@100MHz 3A"
 			(at 157.48 39.5986 0)
 			(effects
 				(font
@@ -7627,7 +7627,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1017"
+		(property "LCSC" "C76818"
 			(at 157.48 35.56 0)
 			(effects
 				(font
@@ -7636,7 +7636,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GZ2012D601TF"
+		(property "MPN" "MPZ2012S221AT000"
 			(at 157.48 35.56 0)
 			(effects
 				(font
@@ -7857,81 +7857,9 @@
 		)
 		(uuid "b99a562f-a373-5cf5-8884-250e67852166")
 	)
-	(wire
-		(pts
-			(xy 167.64 91.44)
-			(xy 165.1 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c8686c91-f10f-5be7-b01a-a4dbdecbc18c")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 165.1 91.44 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "1698508c-0be9-501e-9707-d34c2d21da5a")
-		(property "Reference" "#PWR009"
-			(at 165.1 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 161.29 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 165.1 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 165.1 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 165.1 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fc79b912-690b-51c5-989a-ee6042a9c804")
-		)
-		(instances
-			(project "nibe-esp32-gateway"
-				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR009")
-					(unit 1)
-				)
-			)
-		)
+	(no_connect
+		(at 167.64 91.44)
+		(uuid "0567cec9-01a1-5e06-aefe-5331a7097b54")
 	)
 	(wire
 		(pts
@@ -7952,8 +7880,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "1ecd91a7-039c-519e-902e-0dce4886418a")
-		(property "Reference" "#PWR010"
+		(uuid "1698508c-0be9-501e-9707-d34c2d21da5a")
+		(property "Reference" "#PWR009"
 			(at 175.26 101.6 0)
 			(effects
 				(font
@@ -7998,12 +7926,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "0c821bd1-95a4-5ebb-ac37-44dc932c01f9")
+			(uuid "fc79b912-690b-51c5-989a-ee6042a9c804")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR010")
+					(reference "#PWR009")
 					(unit 1)
 				)
 			)
@@ -8074,6 +8002,182 @@
 			(justify left bottom)
 		)
 		(uuid "1858b5e0-b895-56f5-ad6d-7b592c55f441")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 154.94 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "386dce4b-410a-5a72-b1f5-2906a6fd6dca")
+		(property "Reference" "C4"
+			(at 158.242 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 158.242 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 154.94 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 154.94 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 154.94 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C14663"
+			(at 154.94 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ae19638f-cc32-52b4-833d-76e2ee698f02")
+		)
+		(pin "2"
+			(uuid "e25010d1-e17f-5619-81a7-5ab0ac823f30")
+		)
+		(instances
+			(project "nibe-esp32-gateway"
+				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
+					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 154.94 85.09)
+			(xy 154.94 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8dc25a7d-6525-5604-abc7-541cbced6627")
+	)
+	(label "VBUCK"
+		(at 154.94 82.55 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4dc01c6e-9704-51c4-acf7-eacdd0272b50")
+	)
+	(wire
+		(pts
+			(xy 154.94 92.71)
+			(xy 154.94 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "858fe59f-d172-551d-87a3-87cfeed428a8")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 154.94 95.25 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "1ecd91a7-039c-519e-902e-0dce4886418a")
+		(property "Reference" "#PWR010"
+			(at 154.94 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 154.94 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 154.94 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 154.94 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 154.94 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0c821bd1-95a4-5ebb-ac37-44dc932c01f9")
+		)
+		(instances
+			(project "nibe-esp32-gateway"
+				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
+					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8253,182 +8357,6 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 154.94 88.9 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "386dce4b-410a-5a72-b1f5-2906a6fd6dca")
-		(property "Reference" "C4"
-			(at 158.242 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100nF"
-			(at 158.242 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 154.94 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 154.94 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 154.94 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C14663"
-			(at 154.94 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ae19638f-cc32-52b4-833d-76e2ee698f02")
-		)
-		(pin "2"
-			(uuid "e25010d1-e17f-5619-81a7-5ab0ac823f30")
-		)
-		(instances
-			(project "nibe-esp32-gateway"
-				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 154.94 85.09)
-			(xy 154.94 82.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8dc25a7d-6525-5604-abc7-541cbced6627")
-	)
-	(label "VBUCK"
-		(at 154.94 82.55 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "4dc01c6e-9704-51c4-acf7-eacdd0272b50")
-	)
-	(wire
-		(pts
-			(xy 154.94 92.71)
-			(xy 154.94 95.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "858fe59f-d172-551d-87a3-87cfeed428a8")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 154.94 95.25 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "93fb4033-b49e-52c1-a02b-99e1135ecf7c")
-		(property "Reference" "#PWR012"
-			(at 154.94 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 154.94 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 154.94 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 154.94 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 154.94 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fc0ffb0a-a7a7-5d44-a58b-2eed11e7afea")
-		)
-		(instances
-			(project "nibe-esp32-gateway"
-				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR012")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
 		(at 157.48 104.14 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8546,8 +8474,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "a08147e7-b106-5a60-becd-a1a0a305a0ba")
-		(property "Reference" "#PWR013"
+		(uuid "93fb4033-b49e-52c1-a02b-99e1135ecf7c")
+		(property "Reference" "#PWR012"
 			(at 157.48 110.49 0)
 			(effects
 				(font
@@ -8592,12 +8520,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "956b780c-8ea9-5f5a-855a-45bdad1c294b")
+			(uuid "fc0ffb0a-a7a7-5d44-a58b-2eed11e7afea")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR013")
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -8851,8 +8779,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "edc1ba53-3c22-50c9-9dac-03bbcbec586a")
-		(property "Reference" "#PWR014"
+		(uuid "a08147e7-b106-5a60-becd-a1a0a305a0ba")
+		(property "Reference" "#PWR013"
 			(at 209.55 86.36 0)
 			(effects
 				(font
@@ -8897,12 +8825,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "d7f2339f-44f8-593f-af30-b1007499caca")
+			(uuid "956b780c-8ea9-5f5a-855a-45bdad1c294b")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR014")
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -9005,8 +8933,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "4d5e3408-b85f-5f8a-a6c9-74ca5e69fb93")
-		(property "Reference" "#PWR015"
+		(uuid "edc1ba53-3c22-50c9-9dac-03bbcbec586a")
+		(property "Reference" "#PWR014"
 			(at 210.82 100.33 0)
 			(effects
 				(font
@@ -9051,12 +8979,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "07598c25-f2bb-5f18-8ff2-b4a2b82951c9")
+			(uuid "d7f2339f-44f8-593f-af30-b1007499caca")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR015")
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -9081,8 +9009,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "385a3b5b-939c-5552-a0dc-8f82ae2c3a90")
-		(property "Reference" "#PWR016"
+		(uuid "4d5e3408-b85f-5f8a-a6c9-74ca5e69fb93")
+		(property "Reference" "#PWR015"
 			(at 210.82 113.03 0)
 			(effects
 				(font
@@ -9127,12 +9055,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "7bb9868c-3a0c-59c7-899a-ecbcab87c85d")
+			(uuid "07598c25-f2bb-5f18-8ff2-b4a2b82951c9")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR016")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -9235,8 +9163,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "28619b43-7f80-5040-960e-3403727e0114")
-		(property "Reference" "#PWR017"
+		(uuid "385a3b5b-939c-5552-a0dc-8f82ae2c3a90")
+		(property "Reference" "#PWR016"
 			(at 223.52 100.33 0)
 			(effects
 				(font
@@ -9281,12 +9209,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "e0e6f40c-37b7-55d3-81fe-a21ca6f97b05")
+			(uuid "7bb9868c-3a0c-59c7-899a-ecbcab87c85d")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR017")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -9311,8 +9239,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "06ed60f2-d198-5143-a783-ff6dc0e6264b")
-		(property "Reference" "#PWR018"
+		(uuid "28619b43-7f80-5040-960e-3403727e0114")
+		(property "Reference" "#PWR017"
 			(at 223.52 113.03 0)
 			(effects
 				(font
@@ -9357,12 +9285,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "bca4f0df-ec06-5d36-9901-d2e53515ae1d")
+			(uuid "e0e6f40c-37b7-55d3-81fe-a21ca6f97b05")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR018")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -9465,8 +9393,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "b26de1d0-449f-5f90-8488-1c871d615361")
-		(property "Reference" "#PWR019"
+		(uuid "06ed60f2-d198-5143-a783-ff6dc0e6264b")
+		(property "Reference" "#PWR018"
 			(at 193.04 100.33 0)
 			(effects
 				(font
@@ -9511,12 +9439,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "bcd00b25-0e3d-56ee-a366-959c754cdad2")
+			(uuid "bca4f0df-ec06-5d36-9901-d2e53515ae1d")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR019")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -9663,8 +9591,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "4e3f552e-a097-5c89-9a7a-d474878e8285")
-		(property "Reference" "#PWR020"
+		(uuid "b26de1d0-449f-5f90-8488-1c871d615361")
+		(property "Reference" "#PWR019"
 			(at 193.04 128.27 0)
 			(effects
 				(font
@@ -9709,12 +9637,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "46f7a590-4bac-50ad-af72-a3936a1d287e")
+			(uuid "bcd00b25-0e3d-56ee-a366-959c754cdad2")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR020")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -10141,8 +10069,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "90c41d17-7ee4-5fd2-b05d-6ae48b19bbf3")
-		(property "Reference" "#PWR021"
+		(uuid "4e3f552e-a097-5c89-9a7a-d474878e8285")
+		(property "Reference" "#PWR020"
 			(at 317.5 53.34 0)
 			(effects
 				(font
@@ -10187,12 +10115,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "3e4b45c1-af2c-52dc-977a-cb08cc4801f2")
+			(uuid "46f7a590-4bac-50ad-af72-a3936a1d287e")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR021")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -10217,8 +10145,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "5348d45e-df13-5741-bdeb-7f5c5ba55f9d")
-		(property "Reference" "#PWR022"
+		(uuid "90c41d17-7ee4-5fd2-b05d-6ae48b19bbf3")
+		(property "Reference" "#PWR021"
 			(at 317.5 114.3 0)
 			(effects
 				(font
@@ -10263,12 +10191,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "22cc6cf8-eaef-58ab-b056-48588ac17e13")
+			(uuid "3e4b45c1-af2c-52dc-977a-cb08cc4801f2")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR022")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -10555,8 +10483,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "f2451e0a-89de-5d71-9f03-6877d62f4e4f")
-		(property "Reference" "#PWR023"
+		(uuid "5348d45e-df13-5741-bdeb-7f5c5ba55f9d")
+		(property "Reference" "#PWR022"
 			(at 355.6 34.29 0)
 			(effects
 				(font
@@ -10601,12 +10529,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "9aace177-b893-56de-a791-afc20e26c33d")
+			(uuid "22cc6cf8-eaef-58ab-b056-48588ac17e13")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR023")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -10631,8 +10559,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "edeecd24-a0fd-5b34-8933-c0cbd3e56077")
-		(property "Reference" "#PWR024"
+		(uuid "f2451e0a-89de-5d71-9f03-6877d62f4e4f")
+		(property "Reference" "#PWR023"
 			(at 355.6 46.99 0)
 			(effects
 				(font
@@ -10677,12 +10605,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "f36dc165-c95f-575e-ae86-80290ce84542")
+			(uuid "9aace177-b893-56de-a791-afc20e26c33d")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR024")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -10785,8 +10713,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "11eb9b4e-01c9-5861-b91c-335b5ce6cff7")
-		(property "Reference" "#PWR025"
+		(uuid "edeecd24-a0fd-5b34-8933-c0cbd3e56077")
+		(property "Reference" "#PWR024"
 			(at 365.76 34.29 0)
 			(effects
 				(font
@@ -10831,12 +10759,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "9ec026c9-ab32-5b98-88d5-ad1f60fc61df")
+			(uuid "f36dc165-c95f-575e-ae86-80290ce84542")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR025")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -10861,8 +10789,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "bb714ccf-5a36-5008-b72f-a655ba86634a")
-		(property "Reference" "#PWR026"
+		(uuid "11eb9b4e-01c9-5861-b91c-335b5ce6cff7")
+		(property "Reference" "#PWR025"
 			(at 365.76 46.99 0)
 			(effects
 				(font
@@ -10907,12 +10835,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "07700451-14d6-58ea-83f2-1bbda79e9528")
+			(uuid "9ec026c9-ab32-5b98-88d5-ad1f60fc61df")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR026")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -11015,8 +10943,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "5cccf37d-7861-5b66-81bf-c81ea8b2e280")
-		(property "Reference" "#PWR027"
+		(uuid "bb714ccf-5a36-5008-b72f-a655ba86634a")
+		(property "Reference" "#PWR026"
 			(at 256.54 39.37 0)
 			(effects
 				(font
@@ -11061,12 +10989,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "497d65aa-cff9-56e2-afb3-f4d50f0d2229")
+			(uuid "07700451-14d6-58ea-83f2-1bbda79e9528")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR027")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -11213,8 +11141,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "b884b0df-32d0-5ffd-878a-637713027f07")
-		(property "Reference" "#PWR028"
+		(uuid "5cccf37d-7861-5b66-81bf-c81ea8b2e280")
+		(property "Reference" "#PWR027"
 			(at 256.54 69.85 0)
 			(effects
 				(font
@@ -11259,12 +11187,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "6aa13f40-6f6a-593c-8d73-f2e8f2dbd033")
+			(uuid "497d65aa-cff9-56e2-afb3-f4d50f0d2229")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR028")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -11396,8 +11324,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "84ad27a4-c2d6-5cd2-bd63-291abca0642e")
-		(property "Reference" "#PWR029"
+		(uuid "b884b0df-32d0-5ffd-878a-637713027f07")
+		(property "Reference" "#PWR028"
 			(at 264.16 78.74 0)
 			(effects
 				(font
@@ -11442,12 +11370,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "21779efa-d65a-5c91-abef-dfb31af7fe5e")
+			(uuid "6aa13f40-6f6a-593c-8d73-f2e8f2dbd033")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR029")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -11550,8 +11478,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "e0a247bb-b1af-594b-a1f4-37095763d3ef")
-		(property "Reference" "#PWR030"
+		(uuid "84ad27a4-c2d6-5cd2-bd63-291abca0642e")
+		(property "Reference" "#PWR029"
 			(at 363.22 110.49 0)
 			(effects
 				(font
@@ -11596,12 +11524,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "014ea147-e4e1-54e5-878b-b5c61605afc0")
+			(uuid "21779efa-d65a-5c91-abef-dfb31af7fe5e")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR030")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -11755,8 +11683,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "86d2128a-3fc9-527f-9498-c06190e627f7")
-		(property "Reference" "#PWR031"
+		(uuid "e0a247bb-b1af-594b-a1f4-37095763d3ef")
+		(property "Reference" "#PWR030"
 			(at 386.08 132.08 0)
 			(effects
 				(font
@@ -11801,12 +11729,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "060ed3b2-b41c-507a-aa64-225b1b56d379")
+			(uuid "014ea147-e4e1-54e5-878b-b5c61605afc0")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR031")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -11990,8 +11918,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "bc0dacfb-e0b0-5552-b772-3752f0211c1e")
-		(property "Reference" "#PWR032"
+		(uuid "86d2128a-3fc9-527f-9498-c06190e627f7")
+		(property "Reference" "#PWR031"
 			(at 48.26 185.42 0)
 			(effects
 				(font
@@ -12036,12 +11964,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "387bcc81-86bc-57b6-bec1-417549f3c361")
+			(uuid "060ed3b2-b41c-507a-aa64-225b1b56d379")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR032")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -12176,8 +12104,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "a476a143-2b06-58a3-92ba-9c5615b54f37")
-		(property "Reference" "#PWR033"
+		(uuid "bc0dacfb-e0b0-5552-b772-3752f0211c1e")
+		(property "Reference" "#PWR032"
 			(at 83.82 212.09 0)
 			(effects
 				(font
@@ -12222,12 +12150,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "33637cfe-2c30-5418-915d-b3fcb80189e5")
+			(uuid "387bcc81-86bc-57b6-bec1-417549f3c361")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR033")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -12352,8 +12280,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "f0d76350-891a-543f-a44e-96e630d7582f")
-		(property "Reference" "#PWR034"
+		(uuid "a476a143-2b06-58a3-92ba-9c5615b54f37")
+		(property "Reference" "#PWR033"
 			(at 104.14 173.99 0)
 			(effects
 				(font
@@ -12398,12 +12326,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "faca74dd-dd5b-530e-b155-4cb2a9bed337")
+			(uuid "33637cfe-2c30-5418-915d-b3fcb80189e5")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR034")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -12550,8 +12478,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "13de9474-77a5-5547-9819-24f2a52a31cd")
-		(property "Reference" "#PWR035"
+		(uuid "f0d76350-891a-543f-a44e-96e630d7582f")
+		(property "Reference" "#PWR034"
 			(at 114.3 227.33 0)
 			(effects
 				(font
@@ -12596,12 +12524,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "524ed8c3-c308-56fe-aaa4-49800753dfc8")
+			(uuid "faca74dd-dd5b-530e-b155-4cb2a9bed337")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR035")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -13052,8 +12980,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "aa221923-9d5d-5c7d-8f62-b0ac1d08528f")
-		(property "Reference" "#PWR036"
+		(uuid "13de9474-77a5-5547-9819-24f2a52a31cd")
+		(property "Reference" "#PWR035"
 			(at 190.5 180.34 0)
 			(effects
 				(font
@@ -13098,12 +13026,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "b7aaed31-6060-5aaa-b1dd-d759c794a132")
+			(uuid "524ed8c3-c308-56fe-aaa4-49800753dfc8")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR036")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -13128,8 +13056,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "72b6dcd8-1660-5035-b096-72e8680f09ba")
-		(property "Reference" "#PWR037"
+		(uuid "aa221923-9d5d-5c7d-8f62-b0ac1d08528f")
+		(property "Reference" "#PWR036"
 			(at 190.5 215.9 0)
 			(effects
 				(font
@@ -13174,12 +13102,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "efad1ff1-f2d4-5c48-8b87-9b9ad3219b8a")
+			(uuid "b7aaed31-6060-5aaa-b1dd-d759c794a132")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR037")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -13326,8 +13254,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "d69306fa-76cc-5dca-aab1-7ed19c58a032")
-		(property "Reference" "#PWR038"
+		(uuid "72b6dcd8-1660-5035-b096-72e8680f09ba")
+		(property "Reference" "#PWR037"
 			(at 215.9 168.91 0)
 			(effects
 				(font
@@ -13372,12 +13300,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "c57ade68-8b08-5949-858d-4e0ff470ee1f")
+			(uuid "efad1ff1-f2d4-5c48-8b87-9b9ad3219b8a")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR038")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -13402,8 +13330,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "b2a914e5-752f-5e19-a2b8-f506a71babd7")
-		(property "Reference" "#PWR039"
+		(uuid "d69306fa-76cc-5dca-aab1-7ed19c58a032")
+		(property "Reference" "#PWR038"
 			(at 215.9 181.61 0)
 			(effects
 				(font
@@ -13448,12 +13376,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "a1d4b1e2-5ade-5758-8519-d903325ef103")
+			(uuid "c57ade68-8b08-5949-858d-4e0ff470ee1f")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR039")
+					(reference "#PWR038")
 					(unit 1)
 				)
 			)
@@ -13578,8 +13506,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "bb0e0b4e-2ab3-56de-864a-ed17cee2e1d1")
-		(property "Reference" "#PWR040"
+		(uuid "b2a914e5-752f-5e19-a2b8-f506a71babd7")
+		(property "Reference" "#PWR039"
 			(at 160.02 234.95 0)
 			(effects
 				(font
@@ -13624,12 +13552,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "875bc2e8-131b-525e-8839-98cb0507c275")
+			(uuid "a1d4b1e2-5ade-5758-8519-d903325ef103")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR040")
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
@@ -13732,8 +13660,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "ad962029-3ff8-5e13-a785-83eee81d84a9")
-		(property "Reference" "#PWR041"
+		(uuid "bb0e0b4e-2ab3-56de-864a-ed17cee2e1d1")
+		(property "Reference" "#PWR040"
 			(at 160.02 171.45 0)
 			(effects
 				(font
@@ -13778,12 +13706,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "726dfeb3-2ed7-5248-81b7-38e0899545d5")
+			(uuid "875bc2e8-131b-525e-8839-98cb0507c275")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR041")
+					(reference "#PWR040")
 					(unit 1)
 				)
 			)
@@ -13908,8 +13836,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "0913692b-99e5-5279-942e-0bcaebfa1058")
-		(property "Reference" "#PWR042"
+		(uuid "ad962029-3ff8-5e13-a785-83eee81d84a9")
+		(property "Reference" "#PWR041"
 			(at 256.54 173.99 0)
 			(effects
 				(font
@@ -13954,12 +13882,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "bbbc8075-c7ea-581d-952e-9d1fa2a6bde7")
+			(uuid "726dfeb3-2ed7-5248-81b7-38e0899545d5")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR042")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -14093,8 +14021,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "871119bd-9f42-560b-8bd9-dcda6b251741")
-		(property "Reference" "#PWR043"
+		(uuid "0913692b-99e5-5279-942e-0bcaebfa1058")
+		(property "Reference" "#PWR042"
 			(at 256.54 204.47 0)
 			(effects
 				(font
@@ -14139,12 +14067,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "f7ed4d0a-d982-56a2-b19d-5396f69a91e0")
+			(uuid "bbbc8075-c7ea-581d-952e-9d1fa2a6bde7")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR043")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -14190,7 +14118,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "330"
+		(property "Value" "100"
 			(at 281.686 181.61 0)
 			(effects
 				(font
@@ -14226,7 +14154,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C23138"
+		(property "LCSC" "C22775"
 			(at 279.4 180.34 0)
 			(effects
 				(font
@@ -14400,8 +14328,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "0ea164a2-a323-509a-9a7b-37b61466a384")
-		(property "Reference" "#PWR044"
+		(uuid "871119bd-9f42-560b-8bd9-dcda6b251741")
+		(property "Reference" "#PWR043"
 			(at 279.4 204.47 0)
 			(effects
 				(font
@@ -14446,12 +14374,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "1a72b27e-9fc4-5d3d-800c-4a17b8b9dc20")
+			(uuid "f7ed4d0a-d982-56a2-b19d-5396f69a91e0")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR044")
+					(reference "#PWR043")
 					(unit 1)
 				)
 			)
@@ -14497,7 +14425,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "330"
+		(property "Value" "100"
 			(at 304.546 181.61 0)
 			(effects
 				(font
@@ -14533,7 +14461,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C23138"
+		(property "LCSC" "C22775"
 			(at 302.26 180.34 0)
 			(effects
 				(font
@@ -14707,8 +14635,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "c75cc7bd-62ab-5fa7-b735-c7ca9bb519d2")
-		(property "Reference" "#PWR045"
+		(uuid "0ea164a2-a323-509a-9a7b-37b61466a384")
+		(property "Reference" "#PWR044"
 			(at 302.26 204.47 0)
 			(effects
 				(font
@@ -14753,12 +14681,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "a90ed51b-ff0f-5756-8eae-1e01173c70da")
+			(uuid "1a72b27e-9fc4-5d3d-800c-4a17b8b9dc20")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR045")
+					(reference "#PWR044")
 					(unit 1)
 				)
 			)
@@ -14886,8 +14814,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "9566e2ae-d8eb-5378-8de8-ea1294eb711e")
-		(property "Reference" "#PWR046"
+		(uuid "c75cc7bd-62ab-5fa7-b735-c7ca9bb519d2")
+		(property "Reference" "#PWR045"
 			(at 358.14 185.42 0)
 			(effects
 				(font
@@ -14932,12 +14860,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "59ca4c37-619b-54de-8932-924ef32efd73")
+			(uuid "a90ed51b-ff0f-5756-8eae-1e01173c70da")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR046")
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -15050,8 +14978,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "b0079bd7-c22f-50c8-8ec0-122e2693974a")
-		(property "Reference" "#PWR047"
+		(uuid "9566e2ae-d8eb-5378-8de8-ea1294eb711e")
+		(property "Reference" "#PWR046"
 			(at 358.14 198.12 0)
 			(effects
 				(font
@@ -15096,12 +15024,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "e45688f4-9639-5ead-a055-93e17da851c6")
+			(uuid "59ca4c37-619b-54de-8932-924ef32efd73")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR047")
+					(reference "#PWR046")
 					(unit 1)
 				)
 			)
@@ -15367,8 +15295,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "a8c0ca0d-1e5e-5530-967d-b5f0f924d38a")
-		(property "Reference" "#FLG048"
+		(uuid "b7a43222-942d-5cf2-bcb9-30c89e8f02ba")
+		(property "Reference" "#FLG047"
 			(at 22.86 119.38 0)
 			(effects
 				(font
@@ -15413,12 +15341,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "aa4b2914-e591-580f-8fab-66df6b483851")
+			(uuid "b2d9edde-1bdb-5222-9b95-3374a87f93a2")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#FLG048")
+					(reference "#FLG047")
 					(unit 1)
 				)
 			)
@@ -15443,8 +15371,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "85cb7350-9b73-524c-9565-fedaf489abdc")
-		(property "Reference" "#PWR049"
+		(uuid "a1421235-2deb-5f9d-b3b8-5e14cb4a96f5")
+		(property "Reference" "#PWR048"
 			(at 22.86 127 0)
 			(effects
 				(font
@@ -15489,12 +15417,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "f5cc220a-0807-5707-94af-805aa58362f2")
+			(uuid "a285c32b-dfe0-50ef-b70e-99651bf37256")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR049")
+					(reference "#PWR048")
 					(unit 1)
 				)
 			)
@@ -15508,8 +15436,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "46c975e8-21e9-55af-82a5-9b8890036d41")
-		(property "Reference" "#FLG050"
+		(uuid "03d2eacc-4d7c-50ec-aa15-660f0db28ed0")
+		(property "Reference" "#FLG049"
 			(at 220.98 73.66 0)
 			(effects
 				(font
@@ -15554,12 +15482,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "2fbbdd08-3f7e-5316-8a2f-bbe6fb137ab0")
+			(uuid "b1ce9db9-b577-528c-b422-17ce47558132")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#FLG050")
+					(reference "#FLG049")
 					(unit 1)
 				)
 			)
@@ -15584,8 +15512,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "5705263b-c999-58a8-afbd-4380755c3c36")
-		(property "Reference" "#PWR051"
+		(uuid "eeb336f4-cef8-54ed-9948-95ed49cefe6d")
+		(property "Reference" "#PWR050"
 			(at 220.98 81.28 0)
 			(effects
 				(font
@@ -15630,12 +15558,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "58e6fc21-1e38-5a7e-a29e-38fb5064648d")
+			(uuid "7fdec02d-e8a0-53b9-92d0-b192c5a4bab8")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#PWR051")
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -15649,8 +15577,8 @@
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "be59278c-e24b-564b-85c0-e968671c3d29")
-		(property "Reference" "#FLG052"
+		(uuid "24a02b4c-cd92-531b-b57f-caa8559fd2e3")
+		(property "Reference" "#FLG051"
 			(at 137.16 71.12 0)
 			(effects
 				(font
@@ -15695,12 +15623,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "947b0d77-fd8a-5aa7-aa10-35d776eb83e8")
+			(uuid "d2597452-9ed2-5707-9137-27d2d9292cc7")
 		)
 		(instances
 			(project "nibe-esp32-gateway"
 				(path "/2a7a589d-87f3-58b1-b210-d7a5097ccdf5"
-					(reference "#FLG052")
+					(reference "#FLG051")
 					(unit 1)
 				)
 			)

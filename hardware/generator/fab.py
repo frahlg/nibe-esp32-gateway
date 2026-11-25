@@ -19,9 +19,12 @@ JLC_ROTATIONS = [
     (r"^SOIC-", 270),                               # U2 THVD1450
     (r"^USB_C_Receptacle_HRO_TYPE-C-31-M-12", 0),   # J1
 ]
-# JLCPCB places some parts by body centre where KiCad uses pin 1 (mm, footprint frame)
+# Where JLCPCB's footprint origin differs from KiCad's (mm, KiCad footprint frame, y down).
+# U3 and J1 come from JLCPCB's own footprints for C2913204 and C165948, checked in the preview.
 JLC_OFFSETS = [
-    (r"^PhoenixContact_MC_1,5_4-G-3.5", (5.25, 0.0)),  # J2: centre of the four pins
+    (r"^PhoenixContact_MC_1,5_4-G-3.5", (5.25, 0.0)),        # J2: centre of the four pins, not pin 1
+    (r"^ESP32-S3-WROOM-1$", (0.0, 3.635)),                    # U3: centre of the pad field, not of the body
+    (r"^USB_C_Receptacle_HRO_TYPE-C-31-M-12", (0.0, -1.424)),  # J1: 1.42 mm further from the board edge
 ]
 
 

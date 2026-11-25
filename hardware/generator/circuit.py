@@ -34,7 +34,7 @@ def c0805(value):
     return ("Device:C", "Capacitor_SMD:C_0805_2012Metric", value, C0805[value], "")
 
 
-FERRITE = ("Device:FerriteBead", "Inductor_SMD:L_0805_2012Metric", "600R@100MHz", "C1017", "GZ2012D601TF")
+FERRITE = ("Device:FerriteBead", "Inductor_SMD:L_0805_2012Metric", "220R@100MHz 3A", "C76818", "MPZ2012S221AT000")
 TVS18 = ("Diode:SMAJ18A", "Diode_SMD:D_SMA", "SMAJ18A", "C118306", "SMAJ18A/TR13")
 JP_BRIDGED = ("Jumper:SolderJumper_2_Bridged", "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm",
               "TERM", "", "")
@@ -68,21 +68,37 @@ add("D3", TVS18, {"1": "VIN", "2": "GND"}, sch=(76.2, 43.18, 270), pcb=(12.5, 44
 add("C1", c0805("10uF/25V"), {"1": "VIN", "2": "GND"}, sch=(86.36, 43.18, 0), pcb=(9.5, 44.6, 270))
 add("D2", P["B5819W"], {"2": "VIN", "1": "VSYS"}, sch=(104.14, 35.56, 180), pcb=(11.0, 39.6, 0))
 add("C2", c0805("10uF/25V"), {"1": "VSYS", "2": "GND"}, sch=(142.24, 43.18, 0), pcb=(3.6, 40.2, 270))
-add("FB1", FERRITE, {"1": "VSYS", "2": "VBUCK"}, sch=(157.48, 35.56, 90), pcb=(6.5, 37.4, 90))
+add("FB1", FERRITE, {"1": "VSYS", "2": "VBUCK"}, sch=(157.48, 35.56, 90), pcb=(7.4, 37.0, 90))
 
 # ---------------- 3.3 V buck -----------------------------------------------------------
-add("U4", P["TPS62933"], {"3": "VBUCK", "2": NC, "7": "SS", "1": "GND", "4": "GND",
+# RT (pin 1) is left open: the TPS62933 then switches at 500 kHz, the frequency TI
+# pairs with 4.7 uH for a 3.3 V output (datasheet SLUSEA4, table 10-2). EN (pin 2)
+# is open too; an internal pull-up turns the regulator on.
+# U4 is turned 90 degrees: SW sits on the corner next to L1, VIN and GND face the
+# input capacitors, FB faces the divider on the far side from SW.
+add("U4", P["TPS62933"], {"3": "VBUCK", "2": NC, "7": "SS", "1": NC, "4": "GND",
                           "6": "BST", "5": "SW", "8": "FB"},
-    sch=(175.26, 86.36, 0), pcb=(11.0, 33.0, 0))
-add("C3", c0805("10uF/25V"), {"1": "VBUCK", "2": "GND"}, sch=(144.78, 88.9, 0), pcb=(8.4, 33.4, 270))
-add("C4", c0603("100nF"), {"1": "VBUCK", "2": "GND"}, sch=(154.94, 88.9, 0), pcb=(6.6, 33.4, 270))
-add("C8", c0603("10nF"), {"1": "SS", "2": "GND"}, sch=(157.48, 104.14, 0), pcb=(14.5, 30.0, 90))
-add("C5", c0603("100nF"), {"1": "BST", "2": "SW"}, sch=(195.58, 73.66, 0), pcb=(13.1, 33.9, 270))
-add("L1", P["L4u7"], {"1": "SW", "2": "+3V3"}, sch=(203.2, 86.36, 90), pcb=(16.6, 34.6, 0))
-add("C6", c0805("22uF/25V"), {"1": "+3V3", "2": "GND"}, sch=(210.82, 106.68, 0), pcb=(17.6, 38.0, 180))
-add("C7", c0805("22uF/25V"), {"1": "+3V3", "2": "GND"}, sch=(223.52, 106.68, 0), pcb=(17.6, 40.2, 180))
-add("R3", r0603("47k"), {"1": "+3V3", "2": "FB"}, sch=(193.04, 106.68, 0), pcb=(11.3, 30.0, 270))
-add("R4", r0603("15k"), {"1": "FB", "2": "GND"}, sch=(193.04, 121.92, 0), pcb=(12.9, 30.0, 90))
+    sch=(175.26, 86.36, 0), pcb=(11.0, 33.0, 90))
+add("C4", c0603("100nF"), {"1": "VBUCK", "2": "GND"}, sch=(154.94, 88.9, 0), pcb=(11.5, 35.3, 0))
+add("C3", c0805("10uF/25V"), {"1": "VBUCK", "2": "GND"}, sch=(144.78, 88.9, 0), pcb=(11.5, 37.2, 0))
+add("C8", c0603("10nF"), {"1": "SS", "2": "GND"}, sch=(157.48, 104.14, 0), pcb=(9.9, 29.9, 90))
+add("C5", c0603("100nF"), {"1": "BST", "2": "SW"}, sch=(195.58, 73.66, 0), pcb=(12.25, 30.6, 0))
+add("L1", P["L4u7"], {"1": "SW", "2": "+3V3"}, sch=(203.2, 86.36, 90), pcb=(16.2, 33.0, 0))
+add("C6", c0805("22uF/25V"), {"1": "+3V3", "2": "GND"}, sch=(210.82, 106.68, 0), pcb=(17.7, 37.1, 270))
+add("C7", c0805("22uF/25V"), {"1": "+3V3", "2": "GND"}, sch=(223.52, 106.68, 0), pcb=(15.6, 37.1, 270))
+add("R3", r0603("47k"), {"1": "+3V3", "2": "FB"}, sch=(193.04, 106.68, 0), pcb=(7.2, 30.35, 270))
+add("R4", r0603("15k"), {"1": "FB", "2": "GND"}, sch=(193.04, 121.92, 0), pcb=(7.9, 32.6, 180))
+
+# Copper areas on the top layer for the two high-current switching nets, so the
+# input loop (VIN pin, C4, GND pin) and the SW node stay short and wide.
+# Polygons in board mm; the zone fill keeps clearance to other nets by itself.
+BUCK_ZONES = {
+    "SW": [(11.6, 29.95), (14.6, 29.95), (14.6, 33.1), (11.6, 33.1)],
+    "VBUCK": [(11.0, 33.4), (11.45, 33.4), (11.45, 34.4), (11.3, 34.4), (11.3, 38.0), (9.8, 38.0),
+              (9.8, 36.9), (6.5, 36.9), (6.5, 34.6), (11.0, 34.6)],
+}
+# Ground pads in the buck loops connect to the pour without thermal spokes
+SOLID_GND = [("U4", "4"), ("C4", "2"), ("C3", "2"), ("C6", "2"), ("C7", "2")]
 
 # ---------------- ESP32-S3 -------------------------------------------------------------
 esp_nets = {str(n): NC for n in range(1, 42)}
@@ -120,9 +136,9 @@ add("R8", r0603("10k"), {"1": "+3V3", "2": "RS485_RX"}, sch=(160.02, 177.8, 0), 
 # ---------------- LEDs and expansion --------------------------------------------------
 add("R12", r0603("1k"), {"1": "+3V3", "2": "LED_PWR"}, sch=(256.54, 180.34, 0), pcb=(37.2, 42.4, 90))
 add("D5", P["LED_R"], {"2": "LED_PWR", "1": "GND"}, sch=(256.54, 198.12, 90), pcb=(37.2, 46.2, 90), label="PWR")
-add("R13", r0603("330"), {"1": "LED_STAT", "2": "LED_STAT_A"}, sch=(279.4, 180.34, 0), pcb=(40.6, 42.4, 90))
+add("R13", r0603("100"), {"1": "LED_STAT", "2": "LED_STAT_A"}, sch=(279.4, 180.34, 0), pcb=(40.6, 42.4, 90))
 add("D6", P["LED_G"], {"2": "LED_STAT_A", "1": "GND"}, sch=(279.4, 198.12, 90), pcb=(40.6, 46.2, 90), label="STAT")
-add("R14", r0603("330"), {"1": "LED_BUS", "2": "LED_BUS_A"}, sch=(302.26, 180.34, 0), pcb=(44.0, 42.4, 90))
+add("R14", r0603("100"), {"1": "LED_BUS", "2": "LED_BUS_A"}, sch=(302.26, 180.34, 0), pcb=(44.0, 42.4, 90))
 add("D7", P["LED_W"], {"2": "LED_BUS_A", "1": "GND"}, sch=(302.26, 198.12, 90), pcb=(44.0, 46.2, 90), label="BUS")
 add("J3", P["HDR6"], {"1": "GND", "2": "EXP_IO1", "3": "EXP_IO2",
                                                        "4": "TXD0", "5": "RXD0", "6": "+3V3"},

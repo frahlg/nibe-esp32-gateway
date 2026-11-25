@@ -24,7 +24,7 @@ python3 hardware/generator/tools/check_stock.py
 
 It lists stock, price and basic/extended status for every part and fails if a
 part is short. On 2026-11-25 every part was in stock and the parts cost about
-**USD 8 per board**. Nine parts are "extended" at JLCPCB, which adds a one-off
+**USD 8 per board**. Ten parts are "extended" at JLCPCB, which adds a one-off
 loading fee per part type to each order.
 
 If a part is gone, pick an equal part in the JLCPCB library and change its
@@ -43,14 +43,16 @@ rebuild (see [hardware/README.md](../hardware/README.md)).
    checks the placement before the build.
 4. Upload the BOM and the CPL file.
 5. **Check the placement preview.** JLCPCB and KiCad do not always agree on the
-   zero rotation of a part. The CPL carries corrections for U1, U2, U4, D4 and
-   J1, and a centre offset for J2; each was checked in the preview on
-   2026-11-25 (see `JLC_ROTATIONS` and `JLC_OFFSETS` in
-   `hardware/generator/fab.py`). Still look at every part with a pin-1 mark:
+   zero rotation or origin of a part. The CPL carries rotation corrections for
+   U1, U2, U4, D4 and J1, and position offsets for U3, J1 and J2; each was
+   checked in the preview on 2026-11-25 (see `JLC_ROTATIONS` and `JLC_OFFSETS`
+   in `hardware/generator/fab.py`). Still look at every part with a pin-1 mark:
    U1 (USB ESD), U2 (RS-485), U3 (ESP32 module), U4 (regulator), D1–D3, D4 and
    the LEDs. In the preview a pink dot marks pin 1 of JLCPCB's part; it must sit
-   on the pin-1 pad. Rotate any part where it does not, and check that J2's four
-   pins sit in their holes.
+   on the pin-1 pad. Rotate any part where it does not. Check too that the
+   module's pads sit on the board's pads (its antenna must not stick out past
+   the top edge), that the USB-C socket's pins sit on their pads and that J2's
+   four pins sit in their holes.
 6. J3 (expansion header) and JP1 are not fitted. JP1 is a solder jumper that is
    closed by a copper bridge on the board.
 
@@ -93,6 +95,7 @@ layers makes it stand out.
 If Wi-Fi is weak where the box hangs, order the board with
 **ESP32-S3-WROOM-1U-N8R2** (LCSC C3013944) in place of the WROOM-1. It has the
 same pads and a U.FL socket for an external antenna, but its body is 6.3 mm
-shorter, so its centre sits 3.15 mm lower: in the CPL file change U3's Mid Y
-from -12.7500mm to -15.9000mm. Drill a 6.5 mm hole in the top wall of the base
-for an SMA bulkhead and use a U.FL-to-SMA pigtail.
+shorter. Keep the CPL as it is and check in the placement preview that the
+module's pads sit on the board's pads; if they do not, move U3 along Y in the
+preview until they do. Drill a 6.5 mm hole in the top wall of the base for an
+SMA bulkhead and use a U.FL-to-SMA pigtail.

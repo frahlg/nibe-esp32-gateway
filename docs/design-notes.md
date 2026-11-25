@@ -30,13 +30,23 @@ USB VBUS ─ D1 B5819W ───────────────┴─ VSYS 
   feeding each other.
 - **FB1** with the capacitors on both sides keeps the regulator's switching
   noise off the pump's 12 V. One community report saw pump errors with a noisy
-  LM2596 module on the pump's supply.
+  LM2596 module on the pump's supply. FB1 is a 3 A bead (TDK MPZ2012S221A):
+  on USB alone the buck draws up to about 0.5 A in Wi-Fi bursts, the full
+  rating of a common 600 Ω bead.
 - **U4 TPS62933** takes 3.8–30 V, so the same part runs from 12 V and from USB
-  (about 4.3 V after the diode). It has spread-spectrum switching for low EMI,
-  runs at 1.2 MHz (RT to GND) and starts on its own (EN floats, which the
-  datasheet allows; EN is only rated to 6 V, so it must not see VSYS).
+  (about 4.3 V after the diode). It has spread-spectrum switching for low EMI
+  and runs at 500 kHz with RT open. That is the frequency TI pairs with the
+  4.7 µH inductor for a 3.3 V output (datasheet SLUSEA4, table 10-2); at
+  1.2 MHz TI asks for 2.2 µH, and on USB the off-time would come close to the
+  140 ns minimum. It starts on its own (EN floats, which the datasheet allows;
+  EN is only rated to 6 V, so it must not see VSYS).
   Output: 0.8 V × (1 + 47 k/15 k) = 3.31 V. It can give 3 A, far more than the
   ESP32-S3 needs (about 0.35 A peak), so it runs cool.
+- **Buck layout** follows the datasheet's layout section: C4 (100 nF) sits
+  next to the VIN and GND pins, so the input loop is about 1 × 1.3 mm; VBUCK
+  and SW are copper areas, not thin tracks; the FB divider sits on the side
+  away from SW, 1.3 mm from the FB pin; the bottom ground plane under the
+  regulator is unbroken.
 
 We estimate the board draws about 40 mA at 12 V on average and up to about
 120 mA in Wi-Fi bursts. Not measured yet.
@@ -79,12 +89,24 @@ We estimate the board draws about 40 mA at 12 V on average and up to about
 A 3.5 mm pluggable terminal (Phoenix MC 1,5 style). You wire the plug at the
 pump, then plug it in; you can take the gateway away without touching the pump.
 The pin order is 12V, A, B, GND, the same as on MODBUS 40, so NIBE's wiring
-drawings apply as they are.
+drawings apply as they are. The fitted header (Dorabo DB2ERC-3.5-4P) has
+0.8 mm square pins, 1.13 mm across the corners, so its holes are 1.4 mm as
+Dorabo's drawing asks, not the 1.2 mm of KiCad's Phoenix footprint.
 
 ## Board
 
 - 2 layers, 50 × 58 mm, ground pour on both layers with stitching vias.
+- No via sits in or next to an SMD pad: an open via drains solder paste from
+  the pad and can leave a starved joint or tombstone a small part. The router
+  keeps every via at least 0.15 mm (copper to copper) from any SMD pad, and the
+  build counts any that break the rule. Every ground pad has its own via just
+  outside it.
+- The module's ground pad keeps 4 of the footprint's 12 vias, covered by
+  solder mask on the bottom, for the same reason.
 - All passives 0603/0805 so they can be reworked by hand.
+- LEDs: red PWR with 1 kΩ, green STAT and white BUS with 100 Ω. The green and
+  white LEDs drop 2.6–3.1 V, so from a 3.3 V pin they need a small resistor to
+  light at a few mA.
 - Generated from Python ([hardware/generator](../hardware/generator)) and
   checked by KiCad's ERC, DRC and schematic-parity checks on every build.
 
@@ -96,12 +118,27 @@ These are open until the first boards are built and tested:
   how much X4:12 can give.
 - Whether the pump already terminates or biases the bus is unknown. JP1 makes
   the terminator easy to remove.
-- JLCPCB rotation for U4 (SOT-583) and the module must be checked in the
-  placement preview.
-- The firmware is not written yet (see [firmware](../firmware)).
+- The firmware compiles and passes the bench tester's own tests, but has not
+  run on a board yet (see [firmware](../firmware)).
+
+## Reviews
+
+Two independent reviews (electrical and layout) ran before the first order on
+2026-11-25. They found no wrong pin or polarity. Fixed before ordering:
+
+- U3 and J1 were placed by KiCad's footprint origin; JLCPCB uses its own.
+  The CPL now carries both offsets (`JLC_OFFSETS` in `fab.py`), checked in
+  JLCPCB's placement preview.
+- J2's holes were too small for the fitted header (see Terminal).
+- 40 vias sat in SMD pads, among them every ground pad (see Board).
+- The buck switched at 1.2 MHz with an inductor sized for 500 kHz, and its
+  layout had a long input loop and a long FB track near SW (see Power).
+- FB1 ran at its current rating on USB; the green and white LEDs were dim.
 
 ## Ideas for a later revision
 
+- THVD1410 in place of THVD1450: same pins, slew-rate limited, a better match
+  for 9600 baud on a long cable.
 - Ethernet (W5500) for sites with poor Wi-Fi.
 - A divider on the 12 V input to an ADC pin, to report the pump's supply.
 - A connector for a second bus (for example a P1 meter or an EV charger).

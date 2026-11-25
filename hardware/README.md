@@ -61,9 +61,13 @@ The enclosure has its own fit check against the board's STEP file (see
 - **Routing.** A small grid router (`router.py`) routes one net at a time on a
   0.1 mm grid, or 0.05 mm next to 0.5 mm pitch pins. Power nets get wider
   tracks. Ground is not routed: both layers have a ground pour, each ground pad
-  gets its own via, and stitching vias tie the pours together.
+  gets its own via just outside the pad, and stitching vias tie the pours
+  together. The buck's SW and VBUCK nets are copper areas (`BUCK_ZONES` in
+  `circuit.py`), not routed tracks.
+- **No via in a pad.** The router never puts a via within 0.15 mm of an SMD pad
+  of any net, and the build prints `via-in-pad check: 0 vias ...`.
 - **Design rules** follow JLCPCB's standard 2-layer process: 0.2 mm clearance,
-  0.25 mm signal tracks, 0.4–0.6 mm power tracks, 0.3/0.6 mm vias.
+  0.25 mm signal tracks, 0.5–0.6 mm power tracks, 0.3/0.6 mm vias.
 
 ## Changing the circuit
 

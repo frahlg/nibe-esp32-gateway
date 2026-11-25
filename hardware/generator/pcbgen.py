@@ -111,7 +111,7 @@ class Pcb:
         fp.SetAttributes(attrs)
         rf = fp.Reference()
         rf.SetTextSize(V(ref_size, ref_size))
-        rf.SetTextThickness(MM(ref_size * 0.15))
+        rf.SetTextThickness(MM(max(0.15, ref_size * 0.15)))
         if ref_offset is not None:
             rf.SetPosition(V(x + ref_offset[0], y + ref_offset[1]))
             rf.SetTextAngleDegrees(0)
@@ -161,6 +161,8 @@ class Pcb:
                 else:
                     shp = Shape("rect", net, layers, cx=cx, cy=cy, hw=hw, hh=hh)
                 rt.add(shp)
+                if p.GetAttribute() == pcbnew.PAD_ATTRIB_SMD:
+                    rt.smd_pads.append(shp)
                 self.pad_shapes[(fp.GetReference(), p.GetNumber(), round(cx, 3), round(cy, 3))] = [shp]
                 if p.GetDrillSize().x > 0 and p.GetAttribute() == pcbnew.PAD_ATTRIB_PTH:
                     pass
@@ -251,7 +253,7 @@ class Pcb:
         t.SetPosition(V(x, y))
         t.SetLayer(layer)
         t.SetTextSize(V(size, size))
-        t.SetTextThickness(MM(size * (0.2 if bold else 0.15)))
+        t.SetTextThickness(MM(max(0.15, size * (0.2 if bold else 0.15))))
         t.SetTextAngleDegrees(rot)
         if layer == pcbnew.B_SilkS:
             t.SetMirrored(True)

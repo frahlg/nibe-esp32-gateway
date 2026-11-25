@@ -1,7 +1,8 @@
 # CLAUDE.md
 
 Open-hardware ESP32-S3 gateway for the NIBE F-series accessory bus (MODBUS 40
-port). Hardware rev 1.0 is designed; firmware is the next step.
+port). Hardware rev 1.0 is designed and reviewed; the ESPHome firmware is in
+`firmware/`. Neither has run on a real board yet.
 
 ## Ground rules
 
@@ -29,7 +30,8 @@ A good hardware build prints all of:
 - `netlist: 32 nets` and no `NETLIST ERROR` lines
 - `ERC: 0 issues (0 errors)`
 - `routing done ... failed: none`
-- `DRC summary: clean` (includes schematic parity)
+- `via-in-pad check: 0 vias within 0.15 mm of an SMD pad`
+- `DRC summary: clean` (includes schematic parity and silkscreen checks)
 
 A good enclosure run prints `overlap = 0.000 mm3` for base and lid.
 
@@ -45,5 +47,12 @@ Single steps: `./build.sh sch`, `./build.sh pcb`, `./build.sh fab`.
   below y = 6.5.
 - The router uses a 0.05 mm grid for nets on 0.5 mm pitch pins (`FINE_NETS` in
   `build_pcb.py`) and 0.1 mm for the rest.
-- Ground is never routed: pours on both layers, one via per ground pad, stitching
-  vias.
+- Ground is never routed: pours on both layers, one via next to (never in) each
+  ground pad, stitching vias. `PRE_VIAS` in `build_pcb.py` places a ground via
+  before routing where signal tracks would box a pad in.
+- No via in or within 0.15 mm of an SMD pad (`Router.no_via`). The buck's SW and
+  VBUCK are top-layer copper areas (`BUCK_ZONES` in `circuit.py`); keep C4 at the
+  VIN/GND pins and the FB divider on the side away from SW.
+- JLCPCB places parts by its own footprint origin and rotation. New parts may
+  need entries in `JLC_ROTATIONS`/`JLC_OFFSETS` in `fab.py`; check every one in
+  the JLCPCB placement preview.

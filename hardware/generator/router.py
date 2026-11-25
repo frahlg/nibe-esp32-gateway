@@ -64,6 +64,13 @@ class Router:
         self.edge = np.zeros((self.ny, self.nx), bool)
         self.tracks = []          # (net, layer, x1, y1, x2, y2, width)
         self.vias = []            # (net, x, y)
+        # SMD pads of every net: no via may sit in one, or close enough that solder
+        # paste could run into the hole. via_pad_gap is copper edge to copper edge;
+        # 0.15 mm leaves a solder-mask web of at least 0.15 mm (vias are tented) and
+        # still lets a via sit under a SOT-23-6 body.
+        self.smd_pads = []
+        self.via_pad_gap = 0.15
+        self._novia = None
 
     # --------------------------------------------------------------- geometry
     def idx(self, x, y):
@@ -91,6 +98,20 @@ class Router:
         i1 = min(int((bx1 + r - self.x0) / self.res) + 2, self.nx)
         j1 = min(int((by1 + r - self.y0) / self.res) + 2, self.ny)
         return j0, j1, i0, i1
+
+    def no_via(self):
+        """Grid of cells where a via centre would touch an SMD pad (any net) or come within via_pad_gap of it."""
+        if self._novia is None:
+            m = np.zeros((self.ny, self.nx), bool)
+            r = self.via_r + self.via_pad_gap
+            for s in self.smd_pads:
+                j0, j1, i0, i1 = self._window(s, r)
+                if j0 >= j1 or i0 >= i1:
+                    continue
+                d = s.dist_grid(self.X[j0:j1, i0:i1], self.Y[j0:j1, i0:i1])
+                m[j0:j1, i0:i1] |= d < r - 1e-9
+            self._novia = m
+        return self._novia
 
     def blocked(self, net, layer, r_extra):
         """Grid of cells where a track centre (radius r_extra) would violate clearance."""
@@ -147,7 +168,7 @@ class Router:
         vblk = [self.blocked(net, l, self.via_r) for l in range(2)]
         own = [self.own(net, l, r) for l in range(2)]
         free = [~blk[l] | own[l] for l in range(2)]
-        via_ok = ~vblk[0] & ~vblk[1]
+        via_ok = ~vblk[0] & ~vblk[1] & ~self.no_via()
         for l in range(2):
             if l not in layers:
                 free[l][:] = False
