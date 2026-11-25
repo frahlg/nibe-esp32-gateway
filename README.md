@@ -73,7 +73,7 @@ safety notes, are in [docs/installation.md](docs/installation.md).
 |---|---|
 | [docs/installation.md](docs/installation.md) | Wiring to the F750, enabling MODBUS 40, troubleshooting |
 | [docs/ordering.md](docs/ordering.md) | JLCPCB order, loose parts, printing, assembly |
-| [docs/test-rig.md](docs/test-rig.md) | Try the firmware on the pump with a DevKitC and an RS-485 module, before you order boards |
+| [docs/test-rig.md](docs/test-rig.md) | Try the firmware on the pump before you order boards, with an M5Stack Atom + Tail485 or a DevKitC rig |
 | [docs/protocol.md](docs/protocol.md) | The NIBE accessory bus: electrical layer, frames, commands, timing, sources |
 | [docs/design-notes.md](docs/design-notes.md) | Why each part is there, known gaps |
 | [docs/schematic.pdf](docs/schematic.pdf) | Schematic |

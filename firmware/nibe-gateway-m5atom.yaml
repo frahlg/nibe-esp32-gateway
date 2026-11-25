@@ -1,0 +1,212 @@
+# NIBE gateway on ready-made parts: M5Stack Atom Lite (or Atom Matrix) + Atom Tail485.
+#
+# Same gateway as nibe-gateway.yaml, for testing before the board exists.
+# The Tail485 takes 9-24 V from the pump cable (12V, A, B, GND) and feeds the
+# Atom 5 V through its USB-C plug. Its SP485 transceiver switches direction by
+# itself, so there is no driver-enable pin.
+# Pins (M5Stack docs): Tail485 TX = GPIO26, RX = GPIO32. RGB LED = GPIO27.
+# Flash the Atom over USB before you fit the Tail485: the Tail takes the USB-C port.
+
+substitutions:
+  name: nibe-atom
+  friendly_name: NIBE Atom
+  version: "1.0.0"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  comment: M5Stack Atom + Tail485 test gateway for the NIBE MODBUS 40 port
+  project:
+    name: frahlg.nibe-esp32-gateway-m5atom
+    version: ${version}
+  on_boot:
+    priority: -100
+    then:
+      # Count every data telegram the pump sends (address 0x20, command 0x68) and flash the LED
+      - lambda: |-
+          id(nibe).add_listener(0x20, 0x68, [](const std::vector<uint8_t> &data) {
+            id(telegram_count) += 1;
+            id(last_telegram_ms) = millis();
+            id(bus_blink).execute();
+          });
+
+esp32:
+  board: m5stack-atom
+  variant: esp32
+  flash_size: 4MB
+  framework:
+    type: esp-idf
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/elupus/esphome-nibe.git
+    components: [nibegw]
+
+logger:
+  # Keep INFO or lower: heavy logging delays the replies to the pump.
+  # With the Tail485 fitted, read the logs on the web page or over the API.
+  level: INFO
+
+wifi:
+  power_save_mode: none
+  ap:
+    ssid: NIBE Atom Setup
+
+captive_portal:
+
+improv_serial:
+
+api:
+  # Keep answering the pump when Home Assistant is away
+  reboot_timeout: 0s
+
+ota:
+  - platform: esphome
+
+web_server:
+  port: 80
+  version: 3
+  local: true
+
+uart:
+  id: nibe_uart
+  tx_pin: GPIO26
+  rx_pin: GPIO32
+  baud_rate: 9600
+
+nibegw:
+  id: nibe
+  uart_id: nibe_uart
+  # No dir_pin: the Tail485 switches direction by itself.
+  udp:
+    # No fixed target: the gateway answers whoever sends it valid read or
+    # write requests (Home Assistant's "Nibe Heat Pump" integration in NibeGW
+    # mode), for two minutes after the last request.
+    read_port: 9999
+    write_port: 10000
+  acknowledge:
+    - MODBUS40
+  constants:
+    # Reply to the pump's accessory version request, as MODBUS 40 does
+    - address: MODBUS40
+      token: ACCESSORY
+      data: [0x0A, 0x00, 0x01]
+
+globals:
+  - id: telegram_count
+    type: uint32_t
+    restore_value: no
+    initial_value: "0"
+  - id: last_telegram_ms
+    type: uint32_t
+    restore_value: no
+    initial_value: "0"
+
+light:
+  # The Atom's RGB LED stands in for the board's STAT and BUS LEDs
+  - platform: esp32_rmt_led_strip
+    id: rgb
+    name: Status LED
+    internal: true
+    pin: GPIO27
+    num_leds: 1
+    chipset: SK6812
+    channel_colors: GRB
+    default_transition_length: 0s
+
+script:
+  # White flash for every data telegram
+  - id: bus_blink
+    mode: restart
+    then:
+      - light.turn_on:
+          id: rgb
+          red: 100%
+          green: 100%
+          blue: 100%
+          brightness: 60%
+      - delay: 60ms
+      - script.execute: show_status
+
+  # Green: Wi-Fi up. Red blink: no Wi-Fi yet (set-up mode)
+  - id: show_status
+    mode: restart
+    then:
+      - lambda: |-
+          static bool phase = false;
+          phase = !phase;
+          if (wifi::global_wifi_component->is_connected()) {
+            auto call = id(rgb).turn_on();
+            call.set_rgb(0.0, 1.0, 0.0);
+            call.set_brightness(0.2);
+            call.perform();
+          } else if (phase) {
+            auto call = id(rgb).turn_on();
+            call.set_rgb(1.0, 0.0, 0.0);
+            call.set_brightness(0.4);
+            call.perform();
+          } else {
+            id(rgb).turn_off().perform();
+          }
+
+interval:
+  - interval: 500ms
+    then:
+      - if:
+          condition:
+            not:
+              script.is_running: bus_blink
+          then:
+            - script.execute: show_status
+
+binary_sensor:
+  - platform: template
+    name: Heat pump bus
+    id: bus_ok
+    device_class: connectivity
+    entity_category: diagnostic
+    # On while data telegrams arrive (the pump sends them every few seconds)
+    lambda: |-
+      return id(last_telegram_ms) != 0 && (millis() - id(last_telegram_ms)) < 30000;
+
+sensor:
+  - platform: template
+    name: Telegrams per minute
+    entity_category: diagnostic
+    state_class: measurement
+    unit_of_measurement: "1/min"
+    accuracy_decimals: 0
+    update_interval: 60s
+    lambda: |-
+      uint32_t n = id(telegram_count);
+      id(telegram_count) = 0;
+      return n;
+  - platform: wifi_signal
+    name: Wi-Fi signal
+    entity_category: diagnostic
+    update_interval: 60s
+  - platform: uptime
+    name: Uptime
+    entity_category: diagnostic
+  - platform: internal_temperature
+    name: Chip temperature
+    entity_category: diagnostic
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: IP address
+      entity_category: diagnostic
+  - platform: version
+    name: ESPHome version
+    entity_category: diagnostic
+
+button:
+  - platform: restart
+    name: Restart
+    entity_category: config
+  - platform: safe_mode
+    name: Restart in safe mode
+    entity_category: config

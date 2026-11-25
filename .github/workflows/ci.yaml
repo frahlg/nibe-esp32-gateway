@@ -10,20 +10,28 @@ on:
 
 jobs:
   firmware:
-    name: Compile firmware
+    name: Compile firmware (${{ matrix.config }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - config: nibe-gateway.yaml
+            device: nibe-gateway
+          - config: nibe-gateway-m5atom.yaml
+            device: nibe-atom
     steps:
       - uses: actions/checkout@v4
       - name: Compile with ESPHome
         run: |
-          docker run --rm -v "$PWD/firmware":/config esphome/esphome:2026.11.1 compile nibe-gateway.yaml
+          docker run --rm -v "$PWD/firmware":/config esphome/esphome:2026.11.1 compile ${{ matrix.config }}
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
-          name: nibe-gateway-firmware
+          name: ${{ matrix.device }}-firmware
           path: |
-            firmware/.esphome/build/nibe-gateway/build/firmware.factory.bin
-            firmware/.esphome/build/nibe-gateway/build/firmware.ota.bin
+            firmware/.esphome/build/${{ matrix.device }}/build/firmware.factory.bin
+            firmware/.esphome/build/${{ matrix.device }}/build/firmware.ota.bin
           if-no-files-found: error
           include-hidden-files: true
 

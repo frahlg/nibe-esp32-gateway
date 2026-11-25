@@ -1,9 +1,8 @@
 # Test rig: try the firmware and the pump before you order boards
 
-You can test most of the gateway with parts from an electronics shop: an
-ESP32-S3 development board, an RS-485 module and a small DC/DC module. The rig runs the
-same firmware on the same pins as the board, so it answers the open questions
-before you pay for assembled boards:
+You can test most of the gateway with ready-made parts. The rig runs the same
+gateway firmware as the board, so it answers the open questions before you pay
+for assembled boards:
 
 - Does the firmware answer the pump in time, with no alarm 251?
 - How much current can AA3-X4:12 supply?
@@ -13,9 +12,83 @@ before you pay for assembled boards:
 It does not test the board's own parts: the TPS62933 power stage, the THVD1450
 transceiver, the protection parts and the layout. Only a real board tests those.
 
+There are two ways to build the rig. The test steps further down apply to both.
+
+- **Option A: M5Stack Atom + Tail485.** Two ready-made parts, no soldering. It
+  takes the same four wires from the pump as the board: 12V, A, B and GND.
+- **Option B: DevKitC and modules.** An ESP32-S3-DevKitC-1, an RS-485 module and
+  a DC/DC module on jumper wires. It uses the board's own pins and firmware file.
+
+## Option A: M5Stack Atom + Tail485
+
+### Parts
+
+| Qty | Part | Used for |
+|---|---|---|
+| 1 | M5Stack Atom Lite or Atom Matrix (ESP32-PICO-D4) | Both tests |
+| 1 | M5Stack Atom Tail485 (SKU T002) | Both tests |
+| 1 | 9–24 V DC supply, for example a 12 V adapter | Bench test only |
+| 1 | USB-RS485 adapter | Bench test: it plays the pump |
+| 1 | 4-core cable, for example LiYY 4×0.5 mm² | Pump test |
+| – | Multimeter, USB-C cable | Both tests |
+
+The esphome-nibe project has an
+[example](https://github.com/elupus/esphome-nibe/blob/main/examples/m5stack-atom-lite-tail485.yaml)
+for the same pair.
+The AtomS3 models use other pins; the configuration below does not fit them.
+
+About the Tail485 ([M5Stack docs](https://docs.m5stack.com/en/atom/Tail_RS485)):
+
+- It turns 9–24 V from its terminal into 5 V and feeds the Atom through its
+  USB-C plug. The Atom's own USB-C port is then taken, so read the logs over
+  Wi-Fi.
+- Its SP485 transceiver switches direction by itself, so the firmware has no
+  driver-enable pin. TX is GPIO26 and RX is GPIO32 on the Atom.
+- M5Stack does not say whether it has a 120 Ω terminator. Measure between A and
+  B on the unpowered Tail485: about 120 Ω means it has one.
+
+### Wiring
+
+The Tail485's 4-pin plug, as M5Stack shows it: **GND, 12V, A, B**. Check the
+label on the Tail485 before you wire.
+
+| Tail485 | AA3-X4 |
+|---|---|
+| GND | 9 |
+| 12V | 12 |
+| A | 11 |
+| B | 10 |
+
+### Firmware
+
+Use [`firmware/nibe-gateway-m5atom.yaml`](../firmware/nibe-gateway-m5atom.yaml).
+It is the same gateway as `nibe-gateway.yaml`, with the Atom's pins and its RGB
+LED in place of the board's LEDs.
+
+1. Build it the same way as the board firmware
+   ([firmware/README.md](../firmware/README.md#1-build)), with
+   `nibe-gateway-m5atom.yaml` in place of `nibe-gateway.yaml`. The image is
+   `.esphome/build/nibe-atom/build/firmware.factory.bin`.
+2. Plug the Atom alone into the computer over USB-C, **without the Tail485**.
+   Flash it from <https://web.esphome.io> or with `esphome run`. The Atom needs
+   no button press.
+3. While it is still on USB, set up Wi-Fi from the same page with **Configure
+   Wi-Fi**. You can also join the network **NIBE Atom Setup** from a phone.
+4. Unplug USB and fit the Tail485 onto the Atom.
+
+| LED | Meaning |
+|---|---|
+| Red, blinking | No Wi-Fi yet (set-up mode) |
+| Green | Wi-Fi is up |
+| White flash | A data telegram from the pump |
+
+The status page is at `http://nibe-atom-xxxxxx.local`.
+
+## Option B: DevKitC and modules
+
 ![Test rig wiring](images/test-rig.svg)
 
-## Parts
+### Parts
 
 Prices are from Electrokit (Sweden) on 2026-11-25, including VAT. Any shop
 will do, as long as the parts match.
@@ -46,7 +119,7 @@ Notes on the parts:
 - **DC/DC module.** It comes set to 5 V. Check the output with a multimeter
   before you connect it to the DevKitC.
 
-## Wiring
+### Wiring
 
 | From | To | Signal |
 |---|---|---|
@@ -73,7 +146,7 @@ Notes on the parts:
   or the 3V3 pin, never two at once. While the DC/DC module feeds the 5V pin,
   keep USB unplugged and read the logs over Wi-Fi.
 
-## Firmware
+### Firmware
 
 Flash [`firmware/nibe-gateway.yaml`](../firmware/nibe-gateway.yaml) as it is.
 It already targets `esp32-s3-devkitc-1` and uses GPIO9, GPIO12 and GPIO10. Use
@@ -89,9 +162,12 @@ logs to that port. Then set up Wi-Fi as in
 
 ## 1. Bench test, no pump
 
-1. Leave the DC/DC module out. Power the DevKitC from its USB port.
-2. Wire the USB-RS485 adapter to the RS-485 module: A to A, B to B. If the
-   adapter has a GND terminal, wire it to a G pin on the DevKitC.
+1. Power the rig without the pump:
+   - Option A: feed 9–24 V into the Tail485's 12V and GND.
+   - Option B: leave the DC/DC module out and power the DevKitC from its USB
+     port.
+2. Wire the USB-RS485 adapter to the rig: A to A, B to B. If the adapter has a
+   GND terminal, wire it to the rig's GND.
 3. Run the tester, which plays the pump:
 
    ```bash
@@ -118,14 +194,14 @@ logs to that port. Then set up Wi-Fi as in
 
 ## 3. Run the rig on the pump's 12 V, MODBUS 40 still off
 
-1. Switch the pump off. Connect the cable to the rig as in the table above.
-   Unplug USB from the DevKitC.
+1. Switch the pump off. Connect the cable to the rig as in the wiring table for
+   your option. Unplug USB from the rig.
 2. If you can, put the multimeter in series in the 12 V wire, on a mA range.
-3. Switch the pump on. The DevKitC's power LED lights and the rig joins Wi-Fi.
-4. Note the current, and the 12 V at the rig end while the rig runs. The rig
-   draws about 1.5 times the current the board will, because the DevKitC turns
-   5 V into 3.3 V with a linear regulator. If X4:12 holds up the rig, it will
-   hold up the board.
+3. Switch the pump on. The rig powers up and joins Wi-Fi.
+4. Note the current, and the 12 V at the rig end while the rig runs. Both rigs
+   make 5 V first and then 3.3 V, so they draw at least as much as the board
+   will; option B, with its linear regulator, about 1.5 times as much. If X4:12
+   holds up the rig, it will hold up the board.
 
 **Heat pump bus** stays off for now: the pump only talks to MODBUS 40 once you
 tick it.
@@ -152,6 +228,7 @@ remove the rig with MODBUS 40 ticked, the pump raises alarm 251.
 
 | Measurement | Value |
 |---|---|
+| Rig option (A or B) | |
 | Bench test result and slowest reply | |
 | A–B resistance at X4, pump off | |
 | X4:12 voltage, no load | |

@@ -85,8 +85,10 @@ the board's MAC address).
 
 ## 5. Test on the bench first
 
-No board yet? The same firmware runs on an ESP32-S3-DevKitC-1 with an RS-485
-module; see [../docs/test-rig.md](../docs/test-rig.md).
+No board yet? [`nibe-gateway-m5atom.yaml`](nibe-gateway-m5atom.yaml) runs the
+same gateway on an M5Stack Atom Lite with an Atom Tail485, and
+`nibe-gateway.yaml` runs unchanged on an ESP32-S3-DevKitC-1 with an RS-485
+module. See [../docs/test-rig.md](../docs/test-rig.md).
 
 Before you connect the gateway to the heat pump, check it with a cheap USB-RS485
 adapter (CH340 or FT232 with a MAX485, about USD 3). The tester in
