@@ -1,0 +1,37 @@
+name: firmware and tools
+
+on:
+  push:
+    branches: [main]
+    paths: ["firmware/**", "tools/**", ".github/workflows/ci.yaml"]
+  pull_request:
+    paths: ["firmware/**", "tools/**", ".github/workflows/ci.yaml"]
+  workflow_dispatch:
+
+jobs:
+  firmware:
+    name: Compile firmware
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile with ESPHome
+        run: |
+          docker run --rm -v "$PWD/firmware":/config esphome/esphome:2026.11.1 compile nibe-gateway.yaml
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: nibe-gateway-firmware
+          path: |
+            firmware/.esphome/build/nibe-gateway/build/firmware.factory.bin
+            firmware/.esphome/build/nibe-gateway/build/firmware.ota.bin
+          if-no-files-found: error
+          include-hidden-files: true
+
+  tools:
+    name: Bench tester tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Run tests
+        run: uv run --python 3.12 --with pyserial --with pytest pytest -p no:cacheprovider tools -q

@@ -1,13 +1,40 @@
-# Starting point for the firmware step. NOT TESTED on this board yet.
+# Firmware for the NIBE ESP32 Gateway, hardware rev 1.0.
+#
 # ESPHome + the esphome-nibe NibeGW component (https://github.com/elupus/esphome-nibe).
-# The pins match hardware rev 1.0 (see README.md in this folder).
+# No Wi-Fi password is built in. After flashing, set up Wi-Fi either
+#   - from a phone: join the "NIBE Gateway Setup" network and follow the page, or
+#   - over USB with Improv (https://www.improv-wifi.com).
+# Home Assistant finds the gateway on its own and can adopt it.
+#
+# Pins (see README.md): GPIO9 TX, GPIO12 RX, GPIO10 DE//RE, GPIO38 STAT LED, GPIO39 BUS LED.
 
-esphome:
+substitutions:
   name: nibe-gateway
   friendly_name: NIBE Gateway
+  version: "1.0.0"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  comment: ESP32-S3 gateway for the NIBE MODBUS 40 port
+  project:
+    name: frahlg.nibe-esp32-gateway
+    version: ${version}
+  on_boot:
+    priority: -100
+    then:
+      # Blink the BUS LED and count every data telegram the pump sends (address 0x20, command 0x68)
+      - lambda: |-
+          id(nibe).add_listener(0x20, 0x68, [](const std::vector<uint8_t> &data) {
+            id(telegram_count) += 1;
+            id(last_telegram_ms) = millis();
+            id(bus_blink).execute();
+          });
 
 esp32:
   board: esp32-s3-devkitc-1
+  variant: esp32s3
   flash_size: 8MB
   framework:
     type: esp-idf
@@ -18,49 +45,151 @@ external_components:
       url: https://github.com/elupus/esphome-nibe.git
     components: [nibegw]
 
+# Adopt in the Home Assistant ESPHome dashboard straight from this file
+dashboard_import:
+  package_import_url: github://frahlg/nibe-esp32-gateway/firmware/nibe-gateway.yaml@main
+  import_full_config: true
+
 logger:
-  # Logs go to the USB-C port. Keep the level low: slow logging delays the
-  # replies to the heat pump, and late replies raise alarm 251.
+  # Logs go to the USB-C port and to the web page. Keep the level at INFO or
+  # lower in normal use: heavy logging delays the replies to the heat pump.
   hardware_uart: USB_SERIAL_JTAG
-  level: WARN
+  level: INFO
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
   power_save_mode: none
+  ap:
+    ssid: NIBE Gateway Setup
+
+captive_portal:
+
+improv_serial:
 
 api:
-  # Do not reboot when Home Assistant is away; a reboot stops the replies to the pump.
+  # Keep answering the pump when Home Assistant is away
   reboot_timeout: 0s
 
 ota:
   - platform: esphome
 
+web_server:
+  port: 80
+  version: 3
+  local: true
+
 uart:
   id: nibe_uart
-  tx_pin: GPIO9      # THVD1450 DI
-  rx_pin: GPIO12     # THVD1450 RO
+  tx_pin: GPIO9
+  rx_pin: GPIO12
   baud_rate: 9600
 
 nibegw:
+  id: nibe
   uart_id: nibe_uart
   dir_pin:
-    number: GPIO10   # THVD1450 DE and /RE, high = transmit
+    number: GPIO10
     inverted: false
   udp:
-    # Address of the host that runs the Home Assistant "Nibe Heat Pump" integration
-    target:
-      - ip: 192.168.1.10
-        port: 9999
-    source:
-      - 192.168.1.10
+    # No fixed target: the gateway answers whoever sends it valid read or
+    # write requests (Home Assistant's "Nibe Heat Pump" integration in NibeGW
+    # mode), for two minutes after the last request.
+    read_port: 9999
+    write_port: 10000
   acknowledge:
     - MODBUS40
+  constants:
+    # Reply to the pump's accessory version request, as MODBUS 40 does
+    - address: MODBUS40
+      token: ACCESSORY
+      data: [0x0A, 0x00, 0x01]
 
-status_led:
-  pin: GPIO38        # green STAT LED
+globals:
+  - id: telegram_count
+    type: uint32_t
+    restore_value: no
+    initial_value: "0"
+  - id: last_telegram_ms
+    type: uint32_t
+    restore_value: no
+    initial_value: "0"
 
 output:
   - platform: gpio
+    id: stat_led
+    pin: GPIO38
+  - platform: gpio
     id: bus_led
-    pin: GPIO39      # white BUS LED, free for your own use
+    pin: GPIO39
+
+script:
+  - id: bus_blink
+    mode: restart
+    then:
+      - output.turn_on: bus_led
+      - delay: 40ms
+      - output.turn_off: bus_led
+
+interval:
+  # STAT LED: steady when Wi-Fi is up, blinking while it is not
+  - interval: 500ms
+    then:
+      - lambda: |-
+          static bool phase = false;
+          phase = !phase;
+          if (wifi::global_wifi_component->is_connected()) {
+            id(stat_led).turn_on();
+          } else if (phase) {
+            id(stat_led).turn_on();
+          } else {
+            id(stat_led).turn_off();
+          }
+
+binary_sensor:
+  - platform: template
+    name: Heat pump bus
+    id: bus_ok
+    device_class: connectivity
+    entity_category: diagnostic
+    # On while data telegrams arrive (the pump sends them every few seconds)
+    lambda: |-
+      return id(last_telegram_ms) != 0 && (millis() - id(last_telegram_ms)) < 30000;
+
+sensor:
+  - platform: template
+    name: Telegrams per minute
+    entity_category: diagnostic
+    state_class: measurement
+    unit_of_measurement: "1/min"
+    accuracy_decimals: 0
+    update_interval: 60s
+    lambda: |-
+      uint32_t n = id(telegram_count);
+      id(telegram_count) = 0;
+      return n;
+  - platform: wifi_signal
+    name: Wi-Fi signal
+    entity_category: diagnostic
+    update_interval: 60s
+  - platform: uptime
+    name: Uptime
+    entity_category: diagnostic
+  - platform: internal_temperature
+    name: Chip temperature
+    entity_category: diagnostic
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: IP address
+      entity_category: diagnostic
+  - platform: version
+    name: ESPHome version
+    entity_category: diagnostic
+
+button:
+  - platform: restart
+    name: Restart
+    entity_category: config
+  - platform: safe_mode
+    name: Restart in safe mode
+    entity_category: config
