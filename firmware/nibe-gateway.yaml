@@ -1,0 +1,66 @@
+# Starting point for the firmware step. NOT TESTED on this board yet.
+# ESPHome + the esphome-nibe NibeGW component (https://github.com/elupus/esphome-nibe).
+# The pins match hardware rev 1.0 (see README.md in this folder).
+
+esphome:
+  name: nibe-gateway
+  friendly_name: NIBE Gateway
+
+esp32:
+  board: esp32-s3-devkitc-1
+  flash_size: 8MB
+  framework:
+    type: esp-idf
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/elupus/esphome-nibe.git
+    components: [nibegw]
+
+logger:
+  # Logs go to the USB-C port. Keep the level low: slow logging delays the
+  # replies to the heat pump, and late replies raise alarm 251.
+  hardware_uart: USB_SERIAL_JTAG
+  level: WARN
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: none
+
+api:
+  # Do not reboot when Home Assistant is away; a reboot stops the replies to the pump.
+  reboot_timeout: 0s
+
+ota:
+  - platform: esphome
+
+uart:
+  id: nibe_uart
+  tx_pin: GPIO9      # THVD1450 DI
+  rx_pin: GPIO12     # THVD1450 RO
+  baud_rate: 9600
+
+nibegw:
+  uart_id: nibe_uart
+  dir_pin:
+    number: GPIO10   # THVD1450 DE and /RE, high = transmit
+    inverted: false
+  udp:
+    # Address of the host that runs the Home Assistant "Nibe Heat Pump" integration
+    target:
+      - ip: 192.168.1.10
+        port: 9999
+    source:
+      - 192.168.1.10
+  acknowledge:
+    - MODBUS40
+
+status_led:
+  pin: GPIO38        # green STAT LED
+
+output:
+  - platform: gpio
+    id: bus_led
+    pin: GPIO39      # white BUS LED, free for your own use

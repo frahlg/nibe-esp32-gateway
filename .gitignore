@@ -1,0 +1,15 @@
+# KiCad local files
+*.kicad_prl
+*-backups/
+fp-info-cache
+_autosave-*
+*.lck
+hardware/kicad/.pin_nets.json
+# 3D models are downloaded by hardware/fetch-3d-models.sh
+hardware/.3dmodels/
+# Python
+__pycache__/
+*.pyc
+.venv/
+# macOS
+.DS_Store
