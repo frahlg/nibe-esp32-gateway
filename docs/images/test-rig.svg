@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600" font-family="Helvetica, Arial, sans-serif" font-size="14">
+  <title>Test rig wiring: ESP32-S3-DevKitC-1, RS-485 module and DC/DC module on NIBE AA3-X4</title>
+  <rect width="960" height="600" fill="#ffffff"/>
+
+  <text x="30" y="34" font-size="18" font-weight="bold" fill="#222">Test rig on the NIBE bus</text>
+  <text x="30" y="54" font-size="13" fill="#555">Same pins and firmware as the gateway board. All grounds connect.</text>
+
+  <!-- DevKitC -->
+  <rect x="30" y="80" width="230" height="420" rx="8" fill="#eef3fb" stroke="#4a6fa5" stroke-width="2"/>
+  <text x="145" y="106" text-anchor="middle" font-weight="bold" fill="#222">ESP32-S3-DevKitC-1</text>
+  <g fill="#222" text-anchor="end">
+    <text x="250" y="135">3V3 · J1-1</text>
+    <text x="250" y="175">G · J1-22</text>
+    <text x="250" y="215">GPIO12 RX · J1-18</text>
+    <text x="250" y="255">GPIO9 TX · J1-15</text>
+    <text x="250" y="295">GPIO10 DE · J1-16</text>
+    <text x="250" y="435">5V · J1-21</text>
+    <text x="250" y="465">G · J3-1</text>
+  </g>
+  <text x="45" y="345" font-size="12" fill="#555">USB port: flashing, logs,</text>
+  <text x="45" y="361" font-size="12" fill="#555">bench power.</text>
+  <text x="45" y="383" font-size="12" fill="#b00020">Never USB and 5V at once.</text>
+
+  <!-- RS-485 module -->
+  <rect x="400" y="72" width="200" height="258" rx="8" fill="#eefaf0" stroke="#3c8d50" stroke-width="2"/>
+  <text x="500" y="94" text-anchor="middle" font-weight="bold" fill="#222">RS-485 module</text>
+  <text x="500" y="111" text-anchor="middle" font-size="12" fill="#555">Waveshare, SP3485, 3.3 V</text>
+  <g fill="#222">
+    <text x="410" y="135">VCC</text>
+    <text x="410" y="175">GND</text>
+    <text x="410" y="215">RO</text>
+    <text x="410" y="255">DI</text>
+    <text x="410" y="295">RSE</text>
+  </g>
+  <g fill="#222" text-anchor="end">
+    <text x="590" y="175">A</text>
+    <text x="590" y="215">B</text>
+  </g>
+  <text x="590" y="318" text-anchor="end" font-size="12" fill="#555">120 Ω built in</text>
+
+  <!-- DC/DC module -->
+  <rect x="400" y="380" width="200" height="100" rx="8" fill="#fdf3e7" stroke="#c07a1c" stroke-width="2"/>
+  <text x="500" y="400" text-anchor="middle" font-weight="bold" fill="#222">DC/DC 12 V → 5 V</text>
+  <g fill="#222">
+    <text x="410" y="435">VOUT+</text>
+    <text x="410" y="465">GND</text>
+  </g>
+  <g fill="#222" text-anchor="end">
+    <text x="590" y="435">VIN+</text>
+    <text x="590" y="465">VIN−</text>
+  </g>
+
+  <!-- NIBE X4 -->
+  <rect x="740" y="72" width="190" height="418" rx="8" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+  <text x="835" y="94" text-anchor="middle" font-weight="bold" fill="#222">NIBE F750</text>
+  <text x="835" y="111" text-anchor="middle" font-size="12" fill="#555">terminal AA3-X4</text>
+  <g fill="#222">
+    <text x="750" y="175">11 · A</text>
+    <text x="750" y="215">10 · B</text>
+    <text x="750" y="435">12 · 12 V</text>
+    <text x="750" y="465">9 · GND</text>
+  </g>
+
+  <!-- wires: DevKitC to RS-485 module -->
+  <g stroke-width="3" fill="none">
+    <line x1="260" y1="130" x2="400" y2="130" stroke="#d62728"/>
+    <line x1="260" y1="170" x2="400" y2="170" stroke="#222"/>
+    <line x1="260" y1="210" x2="400" y2="210" stroke="#2ca02c"/>
+    <line x1="260" y1="250" x2="400" y2="250" stroke="#1f77b4"/>
+    <line x1="260" y1="290" x2="400" y2="290" stroke="#9467bd"/>
+  </g>
+  <!-- direction marks -->
+  <path d="M 300 204 L 288 210 L 300 216 Z" fill="#2ca02c"/>
+  <path d="M 358 244 L 370 250 L 358 256 Z" fill="#1f77b4"/>
+  <path d="M 358 284 L 370 290 L 358 296 Z" fill="#9467bd"/>
+
+  <!-- 10k pull-down on RSE -->
+  <line x1="330" y1="290" x2="330" y2="308" stroke="#9467bd" stroke-width="2"/>
+  <rect x="323" y="308" width="14" height="30" fill="#ffffff" stroke="#222" stroke-width="2"/>
+  <line x1="330" y1="338" x2="330" y2="352" stroke="#222" stroke-width="2"/>
+  <line x1="318" y1="352" x2="342" y2="352" stroke="#222" stroke-width="2"/>
+  <line x1="322" y1="357" x2="338" y2="357" stroke="#222" stroke-width="2"/>
+  <line x1="326" y1="362" x2="334" y2="362" stroke="#222" stroke-width="2"/>
+  <circle cx="330" cy="290" r="4" fill="#9467bd"/>
+  <text x="344" y="322" font-size="12" fill="#222">10 kΩ</text>
+  <text x="344" y="337" font-size="12" fill="#555">to GND</text>
+
+  <!-- wires: power -->
+  <g stroke-width="3" fill="none">
+    <line x1="260" y1="430" x2="400" y2="430" stroke="#ff7f0e"/>
+    <line x1="260" y1="460" x2="400" y2="460" stroke="#222"/>
+  </g>
+
+  <!-- wires: bus to pump -->
+  <g stroke-width="3" fill="none">
+    <line x1="600" y1="170" x2="740" y2="170" stroke="#e0b000"/>
+    <line x1="600" y1="210" x2="740" y2="210" stroke="#8c564b"/>
+  </g>
+
+  <!-- wires: 12 V with PTC fuse, and ground -->
+  <line x1="600" y1="430" x2="650" y2="430" stroke="#d62728" stroke-width="3"/>
+  <rect x="650" y="420" width="44" height="20" rx="3" fill="#ffffff" stroke="#222" stroke-width="2"/>
+  <text x="672" y="434" text-anchor="middle" font-size="11" fill="#222">PTC</text>
+  <line x1="694" y1="430" x2="740" y2="430" stroke="#d62728" stroke-width="3"/>
+  <text x="672" y="414" text-anchor="middle" font-size="11" fill="#555">0.5 A</text>
+  <line x1="600" y1="460" x2="740" y2="460" stroke="#222" stroke-width="3"/>
+
+  <!-- connection dots -->
+  <g fill="#222">
+    <circle cx="260" cy="130" r="4"/><circle cx="400" cy="130" r="4"/>
+    <circle cx="260" cy="170" r="4"/><circle cx="400" cy="170" r="4"/>
+    <circle cx="260" cy="210" r="4"/><circle cx="400" cy="210" r="4"/>
+    <circle cx="260" cy="250" r="4"/><circle cx="400" cy="250" r="4"/>
+    <circle cx="260" cy="290" r="4"/><circle cx="400" cy="290" r="4"/>
+    <circle cx="260" cy="430" r="4"/><circle cx="400" cy="430" r="4"/>
+    <circle cx="260" cy="460" r="4"/><circle cx="400" cy="460" r="4"/>
+    <circle cx="600" cy="170" r="4"/><circle cx="740" cy="170" r="4"/>
+    <circle cx="600" cy="210" r="4"/><circle cx="740" cy="210" r="4"/>
+    <circle cx="600" cy="430" r="4"/><circle cx="740" cy="430" r="4"/>
+    <circle cx="600" cy="460" r="4"/><circle cx="740" cy="460" r="4"/>
+  </g>
+
+  <!-- bench note -->
+  <rect x="30" y="522" width="900" height="58" rx="6" fill="#fafafa" stroke="#bbb"/>
+  <text x="46" y="546" font-size="13" fill="#222"><tspan font-weight="bold">Bench test:</tspan> leave out the DC/DC module and power the DevKitC from USB.</text>
+  <text x="46" y="566" font-size="13" fill="#222">Wire a USB-RS485 adapter to A and B (and its GND to a G pin) in place of the pump.</text>
+</svg>

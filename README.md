@@ -12,7 +12,9 @@ F1145, F1155, F1245, F1255, SMO 40 and several VVM models.
 
 > **Status: rev 1.0, design complete, not yet built.** The schematic and board
 > pass KiCad's ERC and DRC, and every part was in stock at JLCPCB on 2026-11-25.
-> No board has been made or tested on a heat pump yet. Firmware comes next.
+> Nobody has built a board or tested one on a heat pump yet. The ESPHome
+> firmware in [`firmware/`](firmware) compiles but has not run on hardware. You can try
+> it on the pump first with a [test rig](docs/test-rig.md) of shop-bought parts.
 
 ## What it does
 
@@ -71,6 +73,7 @@ safety notes, are in [docs/installation.md](docs/installation.md).
 |---|---|
 | [docs/installation.md](docs/installation.md) | Wiring to the F750, enabling MODBUS 40, troubleshooting |
 | [docs/ordering.md](docs/ordering.md) | JLCPCB order, loose parts, printing, assembly |
+| [docs/test-rig.md](docs/test-rig.md) | Try the firmware on the pump with a DevKitC and an RS-485 module, before you order boards |
 | [docs/protocol.md](docs/protocol.md) | The NIBE accessory bus: electrical layer, frames, commands, timing, sources |
 | [docs/design-notes.md](docs/design-notes.md) | Why each part is there, known gaps |
 | [docs/schematic.pdf](docs/schematic.pdf) | Schematic |
