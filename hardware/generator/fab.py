@@ -7,15 +7,21 @@ import shutil
 import subprocess
 import zipfile
 
-# Rotation corrections between KiCad footprint zero orientation and the
-# JLCPCB parts library, from the community table used by JLCKicadTools
-# (github.com/matthewlai/JLCKicadTools, cpl_rotations_db.csv). Always check the
-# placement preview on jlcpcb.com before you pay.
+# Corrections between KiCad's footprint origin/zero rotation and the JLCPCB
+# parts library. Each entry was checked against the JLCPCB placement viewer on
+# 2026-11-25 for the exact LCSC part on this board. The community table in
+# JLCKicadTools had USB-C and SOT-23 (3-pin) wrong for these parts.
+# Still check the placement preview on jlcpcb.com before you pay.
 JLC_ROTATIONS = [
-    (r"^SOT-23", -90),
-    (r"^TSOT-23", 180),
-    (r"^SOIC-", 270),
-    (r"^USB_C_Receptacle_HRO_TYPE-C-31-M-12", 180),
+    (r"^SOT-23-6", -90),                            # U1 USBLC6-2SC6
+    (r"^SOT-23$", 180),                             # D4 PSM712
+    (r"^SOT-583", 180),                             # U4 TPS62933
+    (r"^SOIC-", 270),                               # U2 THVD1450
+    (r"^USB_C_Receptacle_HRO_TYPE-C-31-M-12", 0),   # J1
+]
+# JLCPCB places some parts by body centre where KiCad uses pin 1 (mm, footprint frame)
+JLC_OFFSETS = [
+    (r"^PhoenixContact_MC_1,5_4-G-3.5", (5.25, 0.0)),  # J2: centre of the four pins
 ]
 
 
@@ -68,6 +74,13 @@ def jlc_bom_cpl(board, outdir, name):
         x = pcbnew.ToMM(pos.x)
         y = -pcbnew.ToMM(pos.y)
         rot = fp.GetOrientationDegrees()
+        for pat, (dx, dy) in JLC_OFFSETS:
+            if re.search(pat, fpname):
+                import math
+                a = math.radians(rot)  # KiCad rotates counter-clockwise on screen (y down)
+                x += dx * math.cos(a) + dy * math.sin(a)
+                y -= -dx * math.sin(a) + dy * math.cos(a)
+                break
         for pat, corr in JLC_ROTATIONS:
             if re.search(pat, fpname):
                 rot += corr

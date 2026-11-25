@@ -37,18 +37,20 @@ rebuild (see [hardware/README.md](../hardware/README.md)).
 2. Board settings: 2 layers, 1.6 mm, any colour, HASL lead-free or ENIG,
    1 oz copper. The defaults are fine; the board uses 0.2 mm clearance,
    0.25 mm tracks and 0.3 mm vias.
-3. Turn on **PCB Assembly**, top side.
-   - **Standard** assembly places the through-hole terminal J2 for you.
-   - **Economic** assembly is cheaper but only places surface-mount parts. Then
-     you solder J2 yourself (four large pins, easy). Remove J2 from the BOM
-     before you upload it.
+3. Turn on **PCB Assembly**, top side, **Standard**. JLCPCB only places the
+   ESP32 module with Standard assembly, and Standard also places the
+   through-hole terminal J2. Tick **Confirm Parts Placement** so an engineer
+   checks the placement before the build.
 4. Upload the BOM and the CPL file.
 5. **Check the placement preview.** JLCPCB and KiCad do not always agree on the
-   zero rotation of a part. The CPL already has the usual corrections for
-   SOT-23, SOIC and the USB-C socket, but look at every part with a pin-1 mark:
-   U1 (USB ESD), U2 (RS-485), U3 (ESP32 module), U4 (regulator), D1–D3, D4 and the
-   LEDs. Rotate any part whose pin 1 or cathode is wrong. JLCPCB's engineers
-   also check this before they build.
+   zero rotation of a part. The CPL carries corrections for U1, U2, U4, D4 and
+   J1, and a centre offset for J2; each was checked in the preview on
+   2026-11-25 (see `JLC_ROTATIONS` and `JLC_OFFSETS` in
+   `hardware/generator/fab.py`). Still look at every part with a pin-1 mark:
+   U1 (USB ESD), U2 (RS-485), U3 (ESP32 module), U4 (regulator), D1–D3, D4 and
+   the LEDs. In the preview a pink dot marks pin 1 of JLCPCB's part; it must sit
+   on the pin-1 pad. Rotate any part where it does not, and check that J2's four
+   pins sit in their holes.
 6. J3 (expansion header) and JP1 are not fitted. JP1 is a solder jumper that is
    closed by a copper bridge on the board.
 
